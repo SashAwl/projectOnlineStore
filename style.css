@@ -1,0 +1,33 @@
+/*Добавьте стили для верхнего меню, товара, списка товаров и кнопки вызова корзины.
+*/
+header {
+    background-color: #c7e1e199;
+    border-bottom: 4px solid #b0c1cb52;
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.cart-button {
+    margin-right: 20px;
+    border: none;
+    background-color: #8f9da9;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 19px;
+    cursor: pointer;
+}
+
+.goods-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+
+.goods-item {
+    background-color: #ab7c3b59;
+    background-color: #ab7c3b59;
+    text-align: center;
+}
