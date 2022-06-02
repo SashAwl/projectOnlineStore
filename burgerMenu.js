@@ -93,22 +93,9 @@ class Hamburger {
         this.callories = resultCall;
         return resultCall;
     }
-<<<<<<< HEAD
 }
 
 const hamb = new Hamburger('small', 'cheese');
 hamb.addCondiment();
 hamb.calculatePrice();
 hamb.calculateCalories();
-=======
-
-}
-
-const hamb = new Hamburger('small', 'cheese');
-
-
-// calculatePrice() {
-
-// }
-// calculateCalories() { }
->>>>>>> a10fa3e40f6182a0802bfb6381f01fb6056cecfa
