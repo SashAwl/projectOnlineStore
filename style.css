@@ -12,7 +12,7 @@ header {
 .cart-button {
     margin-right: 20px;
     border: none;
-    background-color: #8f9da9;
+    background-color: #af4a68;
     color: white;
     padding: 7px 15px;
     border-radius: 19px;
@@ -30,4 +30,20 @@ header {
     background-color: #ab7c3b59;
     background-color: #ab7c3b59;
     text-align: center;
+}
+
+.search-value {
+    border: 1px solid lightgrey;
+    padding: 3px 5px;
+    margin-right: 5px;
+    width: 178px;
+}
+
+.search-button {
+    border: none;
+    padding: 4px 5px;
+    color: white;
+    background-color: #8f9da9;
+    margin-left: -5px;
+    margin-right: 20px;
 }
