@@ -8,16 +8,20 @@ const goods = [
 const BASE_URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
 const URL_PRODUCTS = `${BASE_URL}/catalogData.json`
 
-function service(url, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
 
-    const loadHandler = () => {
-        callback(JSON.parse(xhr.response));
-    }
+function service(url) {
+    return new Promise(resolve => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
 
-    xhr.onload = loadHandler;
-    xhr.send();
+        const loadHandler = () => {
+            resolve(JSON.parse(xhr.response));
+        }
+
+        xhr.onload = loadHandler;
+        xhr.send();
+    })
+
 }
 
 class GoodsItem {
@@ -33,15 +37,22 @@ class GoodsItem {
 
 class GoodsList {
     list = [];
-    fetchData(callback) {
-        service(URL_PRODUCTS, (data) => {
+    listFiltered = [];
+    fetchData() {
+        return service(URL_PRODUCTS).then((data) => {
             this.list = data;
-            callback();
+            this.listFiltered = data;
         });
     }
 
+    filter(str) {
+        this.listFiltered = this.list.filter(({ product_name }) => {
+            return (new RegExp(str, "i")).test(product_name);
+        })
+    }
+
     render() {
-        let goodsList = this.list.map((item) => {
+        let goodsList = this.listFiltered.map((item) => {
             const goodsItem = new GoodsItem(item);
             return goodsItem.render();
         })
@@ -62,18 +73,23 @@ URL_BASKETGOODS = `${BASE_URL}/getBasket.json`
 class BasketGoods {
     list = [];
     fetchBasket() {
-        service(URL_BASKETGOODS, (data) => {
+        service(URL_BASKETGOODS).then((data) => {
             this.list = data;
-            callback();
         })
     }
 }
 
 const goodsList = new GoodsList();
-goodsList.fetchData(() => {
+goodsList.fetchData().then(() => {
     goodsList.render();
 });
 
 const basketGoods = new BasketGoods();
 basketGoods.fetchBasket();
 
+document.getElementsByClassName("search-button")[0].addEventListener('click', () => {
+    const input = document.getElementsByClassName("search-value")[0];
+
+    goodsList.filter(input.value);
+    goodsList.render();
+})
