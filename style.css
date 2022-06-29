@@ -1,5 +1,10 @@
 /*Добавьте стили для верхнего меню, товара, списка товаров и кнопки вызова корзины.
 */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
 header {
     background-color: #c7e1e199;
     border-bottom: 4px solid #b0c1cb52;
@@ -32,6 +37,10 @@ header {
     text-align: center;
 }
 
+.goods-list p {
+    text-align: center;
+}
+
 .search-value {
     border: 1px solid lightgrey;
     padding: 3px 5px;
@@ -46,4 +55,27 @@ header {
     background-color: #8f9da9;
     margin-left: -5px;
     margin-right: 20px;
+}
+
+.cart {
+    position: relative;
+}
+
+.openCart {
+    width: 600px;
+    height: 400px;
+    border: 2px solid rgb(211, 205, 205);
+    background-color: #f2f5f7a2;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 15px 25px;
+    position: absolute;
+    right: 20px;
+    top: 35px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.openCart div {
+    cursor: pointer;
 }
