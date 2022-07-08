@@ -6,43 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"
-        integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Online Shop</title>
 </head>
 
 <body>
 
     <div id="root">
-        <header>
-            <input type="text" class="search-value" placeholder="Искать подходящие товары" v-model="searchValue">
-            <div class="cart">
-                <button class="cart-button" @click="openCart">Корзина</button>
-                <div class="openCart" v-if="isVisibleCart">
-                    <span>Корзина {{getSum}}</span>
-                    <div @click="closeCart"><i class="fa fa-window-close" aria-hidden="true"></i></div>
+        <div class="base">
+            <header>
+                <search v-model="searchValue"></search>
+                <div class="cart">
+                    <custom-button @click="openCart">Корзина</custom-button>
+                    <basket v-if="isVisibleCart" @click="closeCart"></basket>
                 </div>
-            </div>
+            </header>
 
-        </header>
-
-        <main>
-            <div class="container">
-                <div class="goods-list">
-                    <p v-if="!list"> Нет данных</p>
-                    <div class="goods-item" v-if="list" v-for="item in filter">
-                        <h3>{{item.product_name}}</h3>
-                        <p>{{item.price}}</p>
+            <main>
+                <div class="container">
+                    <div class="goods-list">
+                        <p v-if="!list"> Нет данных</p>
+                        <goods-item v-if="list" v-for="item in filter" v-bind:item='item'> </goods-item>
                     </div>
                 </div>
-        </main>
-    </div>
-    </div>
+            </main>
+        </div>
 
-
+        <div class="errorNotify">
+            <error v-if="isVisibleError" @click="closeError"> Сервер не отвечает.Попробуйте позже</error>
+        </div>
+    </div>
 
 </body>
 

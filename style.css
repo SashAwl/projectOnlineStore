@@ -5,6 +5,15 @@
     margin: 0 auto;
 }
 
+#root {
+    height: 100vh;
+    position: relative;
+}
+
+.base {
+    flex-grow: 1;
+}
+
 header {
     background-color: #c7e1e199;
     border-bottom: 4px solid #b0c1cb52;
@@ -78,4 +87,22 @@ header {
 
 .openCart div {
     cursor: pointer;
+}
+
+.error {
+    width: 300px;
+    min-height: 20px;
+    background-color: #8f9da957;
+    padding: 6px 10px;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.error div {
+    display: block;
+    cursor: pointer;
+    margin-left: 20px;
 }
