@@ -1,7 +1,6 @@
-const BASE_URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
-const URL_PRODUCTS = `${BASE_URL}/catalogData.json`
-//const URL_PRODUCTS = `https://run.mocky.io/v3/b188e0f2-6a39-488c-b6fd-f600b5abdaa4`  - для проверки уведомления об ошибке сервера
-
+const BASE_URL = "http://localhost:8000";
+const URL_PRODUCTS = `${BASE_URL}/goods.json`
+const URL_BASKETGOODS = `${BASE_URL}/basket`
 
 function service(url) {
     return new Promise((resolve, reject) => {
@@ -18,17 +17,6 @@ function service(url) {
     })
 }
 
-URL_BASKETGOODS = `${BASE_URL}/getBasket.json`
-
-class BasketGoods {
-    list = [];
-    fetchBasket() {
-        service(URL_BASKETGOODS).then((data) => {
-            this.list = data;
-        })
-    }
-}
-
 window.onload = () => {
 
     Vue.component('goods-item', {
@@ -38,17 +26,48 @@ window.onload = () => {
 
     Vue.component('custom-button', {
         template: `
-            <button class="cart-button" @click="$emit('click')"> <slot></slot> </button>
+        <button class="cart-button" @click="$emit('click')"> <slot></slot> </button>
+        `
+    });
+
+    Vue.component('basketItem', {
+        props: ['item'],
+        template: `
+        <div class="basketItem">
+        <div class="nameProduct"><h3>{{ item.product_name }}</h3><p>{{ item.price }} руб.</p></div>
+        <div class="countProduct"><p>{{ item.count }} шт.</p>
+        <div><button class="countButton">+</button>
+        <button class="countButton">-</button></div>
+        </div>
+        </div>
         `
     });
 
     Vue.component('basket', {
+        data: () => {
+            return {
+                basketGoodsItem: []
+            }
+        },
         template: `
-        <div class="openCart">
-            <span>Корзина </span>
-            <div @click="$emit('click')"><i class="fa fa-window-close" aria-hidden="true"></i></div>
+        <div class="cartArea"> 
+            <div class="openCart">
+                <span>Корзина </span>
+                <div @click="$emit('click')"><i class="fa fa-window-close" aria-hidden="true"></i></div>
+            </div>
+            <div>
+                <p v-if="!basketGoodsItem"> Ваша корзина пуста </p>
+                <basketItem v-if="basketGoodsItem" v-for="item in basketGoodsItem" v-bind:item='item'>
+                </basketItem>
+            </div>
         </div>
-        `
+        `,
+        mounted() {
+            service(URL_BASKETGOODS)
+                .then((data) => {
+                    this.basketGoodsItem = data;
+                })
+        }
     });
 
     Vue.component('search', {
@@ -80,6 +99,7 @@ window.onload = () => {
         el: "#root",
         data: {
             list: [],
+            basketGoodsItem: [],
             isVisibleCart: false,
             searchValue: '',
             isVisibleError: false,

@@ -22,7 +22,8 @@
                 <search v-model="searchValue"></search>
                 <div class="cart">
                     <custom-button @click="openCart">Корзина</custom-button>
-                    <basket v-if="isVisibleCart" @click="closeCart"></basket>
+                    <basket v-if="isVisibleCart" @click="closeCart">
+                    </basket>
                 </div>
             </header>
 
