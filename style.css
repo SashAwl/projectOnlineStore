@@ -21,10 +21,10 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-right: 20px;
 }
 
 .cart-button {
-    margin-right: 20px;
     border: none;
     background-color: #af4a68;
     color: white;
@@ -44,10 +44,16 @@ header {
     background-color: #ab7c3b59;
     background-color: #ab7c3b59;
     text-align: center;
+    padding-bottom: 15px;
+}
+
+.goods-item .cart-button {
+    background-color: #9b866a;
 }
 
 .goods-list p {
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .search-value {
@@ -72,7 +78,7 @@ header {
 
 .cartArea {
     width: 600px;
-    height: 400px;
+    min-height: 400px;
     border: 2px solid rgb(211, 205, 205);
     background-color: #f2f5f7ed;
     ;
