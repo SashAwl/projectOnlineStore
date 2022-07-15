@@ -1,27 +1,41 @@
 const BASE_URL = "http://localhost:8000";
+const URL_GOODS = `${BASE_URL}/goods`
 const URL_PRODUCTS = `${BASE_URL}/goods.json`
 const URL_BASKETGOODS = `${BASE_URL}/basket`
 
 function service(url) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.onload = () => {
-            if (xhr.status < 400) {
-                resolve(JSON.parse(xhr.response));
-            } else {
-                reject(new Error(`Ошибка загрузки скрипта`));
-            }
-        }
-        xhr.send();
-    })
-}
+    return fetch(url)
+        .then((res) => res.json())
+        .catch(new Error(`Ошибка загрузки скрипта`));
+};
+
+function serviceWhithBody(url = "", method = "POST", body = {}) {
+    return fetch(
+        url,
+        {
+            method,
+            headers:
+                { "Content-type": "application/json; charset=UTF-8" },
+            body: JSON.stringify(body)
+        })
+    //.then(res => res.json())
+};
 
 window.onload = () => {
 
     Vue.component('goods-item', {
         props: ['item'],
-        template: '<div class="goods-item"><h3>{{ item.product_name }}</h3><p>{{ item.price }}</p></div>'
+        template: `<div class="goods-item">
+        <h3>{{ item.product_name }}</h3>
+        <p>{{ item.price }} руб.</p>
+        <custom-button @click="addGoodsItem">Добавить</custom-button>
+        </div>`,
+
+        methods: {
+            addGoodsItem() {
+                serviceWhithBody(URL_GOODS, "POST", { id_product: this.item.id_product });
+            }
+        }
     });
 
     Vue.component('custom-button', {
@@ -36,7 +50,7 @@ window.onload = () => {
         <div class="basketItem">
         <div class="nameProduct"><h3>{{ item.product_name }}</h3><p>{{ item.price }} руб.</p></div>
         <div class="countProduct"><p>{{ item.count }} шт.</p>
-        <div><button class="countButton">+</button>
+        <div><button @click="$emit('addProduct', item.id_product)" class="countButton">+</button>
         <button class="countButton">-</button></div>
         </div>
         </div>
@@ -57,7 +71,7 @@ window.onload = () => {
             </div>
             <div>
                 <p v-if="!basketGoodsItem"> Ваша корзина пуста </p>
-                <basketItem v-if="basketGoodsItem" v-for="item in basketGoodsItem" v-bind:item='item'>
+                <basketItem @addProduct="addGoodsItem" v-if="basketGoodsItem" v-for="item in basketGoodsItem" v-bind:item='item'>
                 </basketItem>
             </div>
         </div>
@@ -67,6 +81,18 @@ window.onload = () => {
                 .then((data) => {
                     this.basketGoodsItem = data;
                 })
+        },
+        methods: {
+            addGoodsItem(id_product) {
+                serviceWhithBody(
+                    URL_GOODS,
+                    "POST",
+                    {
+                        id_product,
+                    }).then((data) => {
+                        this.basketGoodsItem = data
+                    })
+            }
         }
     });
 

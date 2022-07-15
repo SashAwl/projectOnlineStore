@@ -1,10 +1,1 @@
-[
-    {
-        "id_product": 2,
-        "count": 1
-    },
-    {
-        "id_product": 4,
-        "count": 2
-    }
-]
+[{"id_product":2,"count":2},{"id_product":4,"count":6},{"id_product":1,"count":2},{"id_product":3,"count":2}]
